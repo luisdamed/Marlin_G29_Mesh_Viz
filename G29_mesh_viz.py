@@ -1,13 +1,27 @@
-#%%
+#%% Import libraries needed
 import plotly.graph_objects as go
 import pandas as pd
-import numpy as np
 from datetime import datetime
+import os
+import tkinter as tk
+from tkinter import filedialog
+
+# %% Ask the user to select the file containing the mesh bed level data
+box_open = tk.Tk()
+box_open.withdraw()
+
+# Build a list of tuples for each file type the file dialog should display
+my_filetypes = [('all files', '.*'), ('text files', '.txt'), ('Comma-separated files', '.csv')]
+
+# Ask the user to select a single file name.
+data_file = filedialog.askopenfilename(parent=box_open,
+                                    initialdir=os.getcwd(),
+                                    title="Please select the file containing the mesh bed level data",
+                                    filetypes=my_filetypes)
 
 
-
-# Read data from a csv
-z_data = pd.read_table('test_ender.txt', delimiter= " ", skiprows = 0, skipinitialspace= "true"  )
+# %% Read data from a csv
+z_data = pd.read_table(data_file, delimiter= " ", skiprows = 0, skipinitialspace= "true"  )
 
 
 # Get current time
@@ -37,9 +51,21 @@ fig.update_scenes( aspectratio = {'x': .7, 'y': .7, 'z' : 0.5},
 fig.update_traces(colorscale = 'Portland') #RdBu
 fig.update_layout(plot_bgcolor='white')
 fig.update_coloraxes(colorbar_lenmode='pixels', colorbar_len= 200)
-fig.show()
+
 
 # Export to html
-fig.write_html("test_mesh.html")
+box_save = tk.Tk()
+box_save.withdraw()
+# Build a list of tuples for each file type the file dialog should display
+my_filetypes = [('all files', '.*'), ('text files', '.txt'), ('Comma-separated files', '.csv')]
+
+# Ask the user to select a single file name.
+save_name = filedialog.asksaveasfilename(parent=box_save,
+                                    initialdir=os.getcwd(),
+                                    title="Please type the name for the new file",
+                                    filetypes=my_filetypes)
+
+fig.show()                                  
+fig.write_html(save_name)
 
 
