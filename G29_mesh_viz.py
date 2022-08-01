@@ -7,7 +7,8 @@ from datetime import datetime
 
 
 # Read data from a csv
-z_data = pd.read_csv('test_ender.csv', delimiter= " ", skiprows = 0, skipinitialspace= "true"  )
+z_data = pd.read_table('test_ender.txt', delimiter= " ", skiprows = 0, skipinitialspace= "true"  )
+
 
 # Get current time
 now = datetime.now()
